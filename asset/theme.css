@@ -1,0 +1,266 @@
+/* =============================================================
+   Default starter theme — refactored for the Color Scheme system.
+
+   Every color references a CSS variable (`--color-*`) declared by the
+   color-schemes stylesheet injected by the renderer. Sections opt into
+   a specific scheme via `class="color-scheme-N"`; without that class
+   they inherit the default scheme from :root.
+
+   Legacy `--brand-*` variables (from site_themes.tokens) are kept as
+   fallbacks for any pre-refactor section that still references them —
+   they will be removed in F (existing-tenant migration).
+   ============================================================= */
+
+/* --- Reset + base ----------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--color-background, var(--brand-background, #fff));
+  color: var(--color-foreground, var(--brand-foreground, #111));
+  font-family: var(--brand-font-body), system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  font-size: 16px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--brand-font-heading), system-ui, sans-serif;
+  color: var(--color-foreground-heading, var(--color-foreground, currentColor));
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0;
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; height: auto; }
+
+.wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+@media (min-width: 48rem) { .wrap { padding: 0 2rem; } }
+
+/* --- Header / footer (unchanged for now) ----------------------------- */
+.site-header {
+  border-bottom: 1px solid var(--color-border, var(--brand-border, #eee));
+  background: var(--color-background, var(--brand-background, #fff));
+}
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 4.5rem; gap: 1.5rem; }
+.brand { font-family: var(--brand-font-heading); font-weight: 700; font-size: 1.25rem; text-decoration: none; }
+.nav { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+.nav a { text-decoration: none; font-weight: 500; font-size: 0.95rem; opacity: 0.85; }
+.nav a:hover { opacity: 1; color: var(--color-primary, var(--brand-accent)); }
+.nav .has-children { position: relative; }
+.nav .submenu { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; padding-left: 0.75rem; }
+.site-footer {
+  background: var(--color-foreground, var(--brand-primary));
+  color: var(--color-background, var(--brand-primary-foreground));
+  margin-top: 0;
+}
+.site-footer .wrap { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; padding-top: 3rem; padding-bottom: 3rem; }
+.site-footer a { text-decoration: none; opacity: 0.85; }
+.site-footer a:hover { opacity: 1; }
+.footer-col { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; }
+.footer-col h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; margin-bottom: 0.25rem; }
+
+/* --- Shared section primitives -------------------------------------- */
+.section {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  padding-block: var(--section-padding-top, 5rem) var(--section-padding-bottom, 5rem);
+}
+.section--seam-top { border-top: 1px solid var(--color-border); }
+.section--seam-bottom { border-bottom: 1px solid var(--color-border); }
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--color-primary, var(--brand-accent));
+  margin-bottom: 0.75rem;
+}
+
+/* --- Buttons (scheme-aware) ----------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: var(--brand-radius, 0.5rem);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 100ms ease;
+  line-height: 1;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary {
+  background: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+  border-color: var(--color-primary-button-border);
+}
+.btn--primary:hover {
+  background: var(--color-primary-button-hover-background);
+  color: var(--color-primary-button-hover-text);
+}
+.btn--secondary {
+  background: var(--color-secondary-button-background);
+  color: var(--color-secondary-button-text);
+  border-color: var(--color-secondary-button-border);
+}
+.btn--secondary:hover {
+  background: var(--color-secondary-button-hover-background);
+  color: var(--color-secondary-button-hover-text);
+}
+
+/* --- Hero ------------------------------------------------------------ */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: var(--hero-min-height, 26rem);
+  padding-block: var(--section-padding-top, 6rem) var(--section-padding-bottom, 6rem);
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero--center { align-items: center; text-align: center; }
+.hero--center .hero__content { max-width: 48rem; }
+.hero--left .hero__content { max-width: 40rem; }
+.hero__media {
+  position: absolute; inset: 0; z-index: -2;
+  background-size: cover; background-position: center;
+}
+.hero__overlay {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.45));
+}
+.hero__content { display: flex; flex-direction: column; gap: 1.25rem; }
+.hero__content--on-media { color: #fff; --color-foreground: #fff; --color-foreground-heading: #fff; }
+.hero h1 { font-size: clamp(2.25rem, 5.5vw, 4rem); font-weight: 700; }
+.hero__subtitle { font-size: clamp(1rem, 1.5vw, 1.2rem); opacity: 0.88; margin: 0; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+.hero--center .hero__actions { justify-content: center; }
+
+/* --- Rich text ------------------------------------------------------- */
+.richtext { display: flex; flex-direction: column; gap: 1rem; }
+.richtext--center { align-items: center; text-align: center; }
+.richtext__body { max-width: var(--richtext-max-width, 44rem); }
+.richtext__body p { margin: 0 0 1rem; opacity: 0.85; font-size: 1.05rem; line-height: 1.7; }
+.richtext__body p:last-child { margin-bottom: 0; }
+.richtext__body h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); margin-bottom: 1rem; }
+.richtext__body h3 { font-size: 1.4rem; margin: 1.5rem 0 0.75rem; }
+.richtext__body ul, .richtext__body ol { padding-left: 1.25rem; }
+.richtext__body li { margin-bottom: 0.4rem; }
+.richtext__body a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+
+/* --- CTA ------------------------------------------------------------- */
+.cta { display: flex; flex-direction: column; gap: 1.25rem; align-items: center; text-align: center; }
+.cta--left { align-items: flex-start; text-align: left; }
+.cta__content { max-width: 42rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.cta h2 { font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 700; }
+.cta__body { font-size: 1.1rem; opacity: 0.85; margin: 0; }
+.cta__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* --- Cards grid (FeaturedCards & co.) ------------------------------- */
+.grid { display: grid; gap: 1.25rem; }
+.grid--2 { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+.card {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
+  border: 1px solid var(--color-border);
+  border-radius: var(--brand-radius, 0.75rem);
+  padding: 1.75rem;
+}
+.card h3 { font-size: 1.25rem; }
+.card p { opacity: 0.75; margin: 0; line-height: 1.6; }
+.card__num {
+  width: 2.5rem; height: 2.5rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem;
+  background: var(--color-primary);
+  color: var(--color-primary-button-text, #fff);
+  border-radius: var(--brand-radius, 0.5rem);
+}
+
+/* --- FAQ accordion --------------------------------------------------- */
+.faq { display: flex; flex-direction: column; }
+.faq details { border-bottom: 1px solid var(--color-border); padding: 1.25rem 0; }
+.faq summary {
+  cursor: pointer; font-weight: 600; font-size: 1.05rem; list-style: none;
+  display: flex; justify-content: space-between; gap: 1rem; align-items: center;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--color-primary); font-size: 1.4rem; line-height: 1; }
+.faq details[open] summary::after { content: "–"; }
+.faq p { opacity: 0.75; margin: 0.75rem 0 0; }
+
+/* --- Gallery --------------------------------------------------------- */
+.gallery { display: grid; gap: 0.75rem; }
+.gallery--2 { grid-template-columns: repeat(2, 1fr); }
+.gallery--3 { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.gallery--4 { grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.gallery-item {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: var(--brand-radius, 0.5rem);
+  border: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- Process steps --------------------------------------------------- */
+.process { display: grid; gap: 1.5rem; counter-reset: step; }
+.process--horizontal { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+.process__step { position: relative; padding-left: 4rem; min-height: 3.5rem; counter-increment: step; }
+.process__step::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute; left: 0; top: 0;
+  width: 3rem; height: 3rem;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem;
+  background: var(--color-primary);
+  color: var(--color-primary-button-text, #fff);
+  border-radius: 50%;
+}
+.process__step h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.process__step p { opacity: 0.75; margin: 0; }
+
+/* --- Logo strip ------------------------------------------------------ */
+.logo-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 2rem 3rem; padding: 1rem 0; }
+.logo-strip img { max-height: 2.5rem; max-width: 8rem; object-fit: contain; opacity: 0.72; transition: opacity 150ms; filter: grayscale(20%); }
+.logo-strip img:hover { opacity: 1; filter: none; }
+
+/* --- Testimonials ---------------------------------------------------- */
+.testimonials { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.testimonial {
+  padding: 1.75rem;
+  background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
+  border: 1px solid var(--color-border);
+  border-radius: var(--brand-radius, 0.75rem);
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.testimonial__quote { font-size: 1.05rem; line-height: 1.6; }
+.testimonial__quote::before { content: "\201C"; font-size: 2rem; color: var(--color-primary); line-height: 0.6; margin-right: 0.25rem; }
+.testimonial__author { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.25rem; }
+.testimonial__avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover; }
+.testimonial__name { font-weight: 600; font-size: 0.95rem; }
+.testimonial__role { opacity: 0.7; font-size: 0.85rem; }
+
+/* --- Contact form ---------------------------------------------------- */
+.form { display: flex; flex-direction: column; gap: 1rem; max-width: 42rem; }
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-field label { font-weight: 500; font-size: 0.9rem; }
+.form-field input, .form-field textarea, .form-field select {
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: var(--brand-radius, 0.5rem);
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+.form-field input:focus, .form-field textarea:focus { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.form-status { margin-left: 1rem; opacity: 0.75; font-size: 0.9rem; }
+
+/* --- Visually hidden ------------------------------------------------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }

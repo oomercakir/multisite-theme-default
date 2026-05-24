@@ -1,0 +1,21 @@
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">{{ globals.site_name | default: site.name }}</a>
+    <nav class="nav" aria-label="Ana menü">
+      {% for item in nav %}
+        {% if item.children and item.children.size > 0 %}
+          <span class="has-children">
+            <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
+            <span class="submenu">
+              {% for child in item.children %}
+                <a href="{{ child.url | default: '#' }}">{{ child.label }}</a>
+              {% endfor %}
+            </span>
+          </span>
+        {% else %}
+          <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </div>
+</header>

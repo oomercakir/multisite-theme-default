@@ -1,0 +1,32 @@
+<label class="form-field">
+  <span>{{ block.settings.label }}{% if block.settings.required %} *{% endif %}</span>
+  {% if block.settings.type == 'textarea' %}
+    <textarea name="{{ block.settings.name }}"{% if block.settings.required %} required{% endif %}></textarea>
+  {% elsif block.settings.type == 'file' %}
+    <input type="file" name="{{ block.settings.name }}"{% if block.settings.required %} required{% endif %}>
+  {% else %}
+    <input type="{{ block.settings.type | default: 'text' }}" name="{{ block.settings.name }}"{% if block.settings.required %} required{% endif %}>
+  {% endif %}
+</label>
+
+{% schema %}
+{
+  "name": "Form alanı",
+  "settings": [
+    { "type": "text", "id": "name", "label": "Alan adı", "placeholder": "email", "help": "Form gönderildiğinde bu isimle kayıt edilir." },
+    { "type": "text", "id": "label", "label": "Etiket", "placeholder": "E-posta" },
+    {
+      "type": "select",
+      "id": "type",
+      "label": "Tip",
+      "options": [
+        { "label": "Metin", "value": "text" },
+        { "label": "E-posta", "value": "email" },
+        { "label": "Uzun metin", "value": "textarea" },
+        { "label": "Dosya", "value": "file" }
+      ]
+    },
+    { "type": "toggle", "id": "required", "label": "Zorunlu" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,33 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-col">
+      <h4>{{ globals.site_name | default: site.name }}</h4>
+      {% if globals.tagline %}<p>{{ globals.tagline }}</p>{% endif %}
+    </div>
+    {% if footer_nav and footer_nav.size > 0 %}
+      <div class="footer-col">
+        <h4>Bağlantılar</h4>
+        {% for item in footer_nav %}
+          <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="footer-col">
+      <h4>İletişim</h4>
+      {% if globals.phone %}<a href="tel:{{ globals.phone }}">{{ globals.phone }}</a>{% endif %}
+      {% if globals.email %}<a href="mailto:{{ globals.email }}">{{ globals.email }}</a>{% endif %}
+      {% if globals.address %}<span>{{ globals.address }}</span>{% endif %}
+    </div>
+    {% if globals.social_links %}
+      <div class="footer-col">
+        <h4>Sosyal</h4>
+        {% for social in globals.social_links %}
+          <a href="{{ social[1] }}" rel="noopener" target="_blank">{{ social[0] }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <div class="wrap" style="padding-bottom:1.5rem;font-size:.8rem;opacity:.6">
+    © {{ 'now' | date: '%Y' }} {{ globals.site_name | default: site.name }}
+  </div>
+</footer>

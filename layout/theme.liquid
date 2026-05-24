@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="{{ locale | default: 'tr-TR' | split: '-' | first }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.seo_title | default: page.title }}{% if globals.site_name %} · {{ globals.site_name }}{% endif %}</title>
+  {% if page.seo_description %}<meta name="description" content="{{ page.seo_description }}">{% endif %}
+  <meta property="og:title" content="{{ page.seo_title | default: page.title }}">
+  {% if page.seo_description %}<meta property="og:description" content="{{ page.seo_description }}">{% endif %}
+  <style>
+:root{ {{ theme_css }} }
+{% render 'asset/theme.css' %}
+  </style>
+</head>
+<body>
+  {% render 'partial/header' %}
+  <main>
+{{ content_html }}
+  </main>
+  {% render 'partial/footer' %}
+</body>
+</html>

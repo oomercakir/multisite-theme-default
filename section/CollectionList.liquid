@@ -1,0 +1,57 @@
+<section class="section">
+  <div class="wrap">
+    {% if props.title and props.title != blank %}<h2>{{ props.title }}</h2>{% endif %}
+    {% assign list = entries[props.collectionKey] %}
+    <div class="grid grid--3">
+      {% for item in list %}
+        {% assign card_title = item.data[props.titleField] | default: item.title %}
+        {% assign card_sub = item.data[props.subtitleField] %}
+        {% assign card_img = item.data[props.imageField] %}
+        {% assign card_badge = item.data[props.badgeField] %}
+        <article class="card" style="padding:0;overflow:hidden">
+          {% if card_img and card_img != '' %}
+            <img src="{{ card_img }}" alt="{{ card_title }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
+          {% endif %}
+          <div style="padding:1.5rem">
+            {% if card_badge and card_badge != '' %}<p class="eyebrow">{{ card_badge }}</p>{% endif %}
+            <h3 style="margin-top:.4rem">
+              {% if props.detailBase and props.detailBase != '' and item.slug %}
+                <a href="{{ props.detailBase }}/{{ item.slug }}">{{ card_title }}</a>
+              {% else %}{{ card_title }}{% endif %}
+            </h3>
+            {% if card_sub and card_sub != '' %}<p>{{ card_sub }}</p>{% endif %}
+          </div>
+        </article>
+      {% else %}
+        <p style="opacity:.6">Bu koleksiyonda henüz kayıt yok.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Koleksiyon listesi",
+  "category": "İçerik",
+  "settings": [
+    { "type": "header", "label": "İçerik" },
+    { "type": "text", "id": "title", "label": "Bölüm başlığı", "placeholder": "Yazılar" },
+    { "type": "collection", "id": "collectionKey", "label": "Koleksiyon" },
+    { "type": "url", "id": "detailBase", "label": "Detay sayfa öneki", "placeholder": "/blog", "help": "Boş bırakılırsa kartlar bağlantısız çıkar." },
+    { "type": "header", "label": "Kart alan eşlemesi" },
+    { "type": "collectionField", "id": "titleField", "label": "Kart başlığı", "dependsOn": "collectionKey", "help": "Boşsa kaydın kendi başlığı kullanılır." },
+    { "type": "collectionField", "id": "subtitleField", "label": "Alt metin", "dependsOn": "collectionKey" },
+    { "type": "collectionField", "id": "imageField", "label": "Görsel", "dependsOn": "collectionKey" },
+    { "type": "collectionField", "id": "badgeField", "label": "Üst rozet", "dependsOn": "collectionKey" }
+  ],
+  "presets": [
+    {
+      "name": "Koleksiyon ızgarası",
+      "settings": {
+        "title": "Yazılar",
+        "detailBase": "/blog"
+      }
+    }
+  ]
+}
+{% endschema %}
