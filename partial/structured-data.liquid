@@ -1,0 +1,35 @@
+{%- comment -%}
+  Organization JSON-LD — emitted on every page from site globals. Pure schema
+  data, tenant-customizable (lives in the theme, not platform chrome). Article /
+  Product entity mapping is deferred: it needs per-tenant field mapping. The
+  BreadcrumbList node is emitted by section/Breadcrumb instead.
+{%- endcomment -%}
+{%- liquid
+  assign org_name = globals.site_name | default: site.name
+  assign origin = page.canonical | split: '/' | slice: 0, 3 | join: '/'
+  assign social = globals.social_links
+-%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ org_name | json }}
+  {%- if origin != blank %}, "url": {{ origin | append: '/' | json }}{% endif -%}
+  {%- if settings.logo and settings.logo != blank %}, "logo": {{ settings.logo | image_url: 'width=512,format=png' | json }}{% endif -%}
+  {%- if globals.email and globals.email != blank %}, "email": {{ globals.email | json }}{% endif -%}
+  {%- if globals.phone and globals.phone != blank %}, "telephone": {{ globals.phone | json }}{% endif -%}
+  {%- if globals.address and globals.address != blank %}, "address": {{ globals.address | json }}{% endif -%}
+  {%- if social -%}
+    {%- assign urls = '' -%}
+    {%- for pair in social -%}
+      {%- assign v = pair[1] -%}
+      {%- if v and v != blank -%}{%- assign urls = urls | append: '||' | append: v -%}{%- endif -%}
+    {%- endfor -%}
+    {%- assign urls = urls | remove_first: '||' -%}
+    {%- if urls != blank -%}
+      {%- assign url_list = urls | split: '||' -%}
+      , "sameAs": [{% for u in url_list %}{{ u | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]
+    {%- endif -%}
+  {%- endif -%}
+}
+</script>

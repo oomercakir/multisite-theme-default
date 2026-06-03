@@ -21,6 +21,7 @@
   {% endif %}
   <meta name="twitter:title" content="{{ page.seo_title | default: page.title }}">
   {% if page.seo_description %}<meta name="twitter:description" content="{{ page.seo_description }}">{% endif %}
+  {% render 'partial/structured-data' %}
   <style>
 :root{ {{ theme_css }} }
 {% render 'asset/theme.css' %}
