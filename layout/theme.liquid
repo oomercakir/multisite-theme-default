@@ -5,8 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.seo_title | default: page.title }}{% if globals.site_name %} · {{ globals.site_name }}{% endif %}</title>
   {% if page.seo_description %}<meta name="description" content="{{ page.seo_description }}">{% endif %}
+  {% if page.canonical %}<link rel="canonical" href="{{ page.canonical }}">{% endif %}
+  <meta property="og:type" content="website">
   <meta property="og:title" content="{{ page.seo_title | default: page.title }}">
   {% if page.seo_description %}<meta property="og:description" content="{{ page.seo_description }}">{% endif %}
+  {% if page.canonical %}<meta property="og:url" content="{{ page.canonical }}">{% endif %}
+  {% if globals.site_name %}<meta property="og:site_name" content="{{ globals.site_name }}">{% endif %}
+  {%- assign og_image = page.og_image | default: globals.og_image -%}
+  {% if og_image and og_image != blank %}
+  <meta property="og:image" content="{{ og_image | image_url: 'width=1200,height=630,fit=cover,format=jpg' }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ og_image | image_url: 'width=1200,height=630,fit=cover,format=jpg' }}">
+  {% else %}
+  <meta name="twitter:card" content="summary">
+  {% endif %}
+  <meta name="twitter:title" content="{{ page.seo_title | default: page.title }}">
+  {% if page.seo_description %}<meta name="twitter:description" content="{{ page.seo_description }}">{% endif %}
   <style>
 :root{ {{ theme_css }} }
 {% render 'asset/theme.css' %}
