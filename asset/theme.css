@@ -17,12 +17,12 @@ html, body { margin: 0; padding: 0; }
 body {
   background: var(--color-background, var(--brand-background, #fff));
   color: var(--color-foreground, var(--brand-foreground, #111));
-  font-family: var(--brand-font-body), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body, var(--brand-font-body, system-ui)), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
-  font-size: 16px;
+  font-size: var(--font-size-base, 16px);
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--brand-font-heading), system-ui, sans-serif;
+  font-family: var(--font-heading, var(--brand-font-heading)), system-ui, sans-serif;
   color: var(--color-foreground-heading, var(--color-foreground, currentColor));
   letter-spacing: -0.02em;
   line-height: 1.15;
@@ -34,18 +34,65 @@ img { max-width: 100%; display: block; height: auto; }
 .wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
 @media (min-width: 48rem) { .wrap { padding: 0 2rem; } }
 
-/* --- Header / footer (unchanged for now) ----------------------------- */
+/* --- Header --------------------------------------------------------- */
 .site-header {
+  position: sticky; top: 0; z-index: 100;
   border-bottom: 1px solid var(--color-border, var(--brand-border, #eee));
   background: var(--color-background, var(--brand-background, #fff));
 }
-.site-header .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 4.5rem; gap: 1.5rem; }
-.brand { font-family: var(--brand-font-heading); font-weight: 700; font-size: 1.25rem; text-decoration: none; }
-.nav { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; }
+.topbar { border-bottom: 1px solid var(--color-border, #eee); font-size: 0.8rem; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.25rem; flex-wrap: wrap; }
+.topbar a { text-decoration: none; opacity: 0.8; }
+.topbar a:hover { opacity: 1; }
+.topbar__contact a { margin-right: 1rem; }
+.topbar__social a { margin-left: 0.85rem; }
+.header__bar { position: relative; display: flex; align-items: center; justify-content: space-between; min-height: 4.5rem; gap: 1.5rem; }
+.brand { font-family: var(--font-heading, var(--brand-font-heading)); font-weight: 700; font-size: 1.25rem; text-decoration: none; display: inline-flex; align-items: center; }
+.brand-logo { display: block; }
+.nav { display: flex; gap: 1.5rem; align-items: center; }
 .nav a { text-decoration: none; font-weight: 500; font-size: 0.95rem; opacity: 0.85; }
 .nav a:hover { opacity: 1; color: var(--color-primary, var(--brand-accent)); }
 .nav .has-children { position: relative; }
-.nav .submenu { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.4rem; padding-left: 0.75rem; }
+.nav .submenu { display: flex; flex-direction: column; gap: 0.25rem; }
+
+/* Visually-hidden toggle driven by the burger label (no JS). */
+.nav-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.nav-burger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 0.5rem; }
+.nav-burger span { display: block; width: 24px; height: 2px; background: currentColor; transition: var(--transition-base, 0.15s); }
+
+@media (min-width: 48rem) {
+  /* Desktop: submenu becomes a hover/focus dropdown. */
+  .nav .submenu {
+    position: absolute; top: 100%; left: 0; min-width: 12rem; margin-top: 0.4rem;
+    background: var(--color-background, #fff);
+    border: 1px solid var(--color-border, #eee); border-radius: 0.5rem;
+    padding: 0.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    opacity: 0; visibility: hidden; transform: translateY(0.25rem);
+    transition: var(--transition-base, 0.15s);
+  }
+  .nav .has-children:hover .submenu,
+  .nav .has-children:focus-within .submenu { opacity: 1; visibility: visible; transform: none; }
+  .nav .submenu a { padding: 0.35rem 0.5rem; border-radius: 0.35rem; }
+  .nav .submenu a:hover { background: var(--color-muted, rgba(0,0,0,0.04)); }
+}
+
+@media (max-width: 47.999rem) {
+  /* Mobile: collapse the nav behind the hamburger. */
+  .nav-burger { display: flex; }
+  .nav {
+    display: none; position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--color-background, #fff);
+    border-bottom: 1px solid var(--color-border, #eee);
+    padding: 0.5rem 1.5rem 1rem; box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  }
+  .nav-toggle:checked ~ .nav { display: flex; }
+  .nav > a, .nav .has-children > a { display: block; padding: 0.65rem 0; border-bottom: 1px solid var(--color-border, #eee); }
+  .nav .has-children { display: flex; flex-direction: column; }
+  .nav .submenu { padding: 0 0 0.5rem 0.75rem; }
+}
+
+/* --- Footer --------------------------------------------------------- */
 .site-footer {
   background: var(--color-foreground, var(--brand-primary));
   color: var(--color-background, var(--brand-primary-foreground));
@@ -56,6 +103,8 @@ img { max-width: 100%; display: block; height: auto; }
 .site-footer a:hover { opacity: 1; }
 .footer-col { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; }
 .footer-col h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; margin-bottom: 0.25rem; }
+.footer-legal { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; padding-bottom: 1.5rem; font-size: 0.8rem; opacity: 0.6; }
+.footer-legal__links a { margin-left: 1rem; }
 
 /* --- Shared section primitives -------------------------------------- */
 .section {
@@ -81,14 +130,18 @@ img { max-width: 100%; display: block; height: auto; }
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.85rem 1.6rem;
+  padding: var(--btn-pad-y, 0.85rem) var(--btn-pad-x, 1.6rem);
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
-  border-radius: var(--brand-radius, 0.5rem);
+  border-radius: var(--btn-radius, var(--brand-radius, 0.5rem));
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background 150ms ease, color 150ms ease, border-color 150ms ease, transform 100ms ease;
+  transition:
+    background var(--transition-base, 150ms) ease,
+    color var(--transition-base, 150ms) ease,
+    border-color var(--transition-base, 150ms) ease,
+    transform 100ms ease;
   line-height: 1;
 }
 .btn:active { transform: translateY(1px); }
@@ -165,6 +218,18 @@ img { max-width: 100%; display: block; height: auto; }
 .grid--2 { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
 .grid--4 { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+
+.pagination { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-top: 2rem; }
+.pagination a, .pagination span {
+  display: inline-flex; min-width: 2.25rem; height: 2.25rem; align-items: center; justify-content: center;
+  padding: 0 0.6rem; border: 1px solid var(--color-border, #eee); border-radius: 0.5rem;
+  text-decoration: none; font-size: 0.9rem;
+}
+.pagination a:hover { border-color: var(--color-primary, var(--brand-accent)); }
+.pagination [aria-current="page"] {
+  background: var(--color-primary, var(--brand-accent));
+  color: var(--color-primary-button-text, #fff); border-color: transparent;
+}
 .card {
   display: flex; flex-direction: column; gap: 0.75rem;
   background: color-mix(in srgb, var(--color-foreground) 4%, var(--color-background));
