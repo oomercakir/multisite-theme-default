@@ -29,8 +29,19 @@
         {%- if block.type == 'gallery-image' -%}
           {%- assign image = block.settings.image | default: block.settings.imageUrl -%}
           {%- if image and image != blank -%}
+            {%- assign thumb = image | image_url: 'width=1200,quality=80,format=webp' -%}
+            {%- assign full = image | image_url: 'width=2000,quality=85,format=webp' -%}
+            {%- assign has_video = false -%}
+            {%- if block.settings.video_url and block.settings.video_url != blank -%}{%- assign has_video = true -%}{%- endif -%}
             <figure class="gallery-item">
-              <img src="{{ image | image_url: 'width=1200,quality=80,format=webp' }}" alt="{{ block.settings.alt | default: '' }}" loading="lazy">
+              <a class="glightbox gallery-item__link{% if has_video %} gallery-item__link--video{% endif %}"
+                 href="{% if has_video %}{{ block.settings.video_url | escape }}{% else %}{{ full }}{% endif %}"
+                 data-gallery="gal-{{ section.id }}"
+                 {% if has_video %}data-type="video"{% endif %}
+                 {% if block.settings.caption and block.settings.caption != blank %}data-title="{{ block.settings.caption | escape }}"{% endif %}>
+                <img src="{{ thumb }}" alt="{{ block.settings.alt | default: '' }}" loading="lazy">
+                {%- if has_video -%}<span class="gallery-item__play" aria-hidden="true"></span>{%- endif -%}
+              </a>
               {%- if block.settings.caption and block.settings.caption != blank -%}
                 <figcaption style="padding: 0.5rem 0.75rem; font-size: 0.85rem; opacity: 0.75;">{{ block.settings.caption }}</figcaption>
               {%- endif -%}
@@ -41,6 +52,23 @@
     </div>
   </div>
 </section>
+<script>
+(function(){
+  function init(){ if(window.GLightbox && !window.__glbInit){ window.__glbInit = GLightbox({ selector: '.glightbox', loop: true, touchNavigation: true }); } }
+  if(window.GLightbox){ init(); return; }
+  if(!document.getElementById('glightbox-css')){
+    var l=document.createElement('link'); l.id='glightbox-css'; l.rel='stylesheet';
+    l.href='https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css'; document.head.appendChild(l);
+  }
+  var s=document.getElementById('glightbox-js');
+  if(!s){
+    s=document.createElement('script'); s.id='glightbox-js';
+    s.src='https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js'; document.head.appendChild(s);
+  }
+  s.addEventListener('load', init);
+  if(window.GLightbox) init();
+})();
+</script>
 
 {% schema %}
 {
