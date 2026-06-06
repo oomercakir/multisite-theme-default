@@ -59,6 +59,14 @@
           <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
         {%- endif -%}
       {%- endfor -%}
+      {%- if locale_alternates and locale_alternates.size > 1 -%}
+        <span class="locale-switcher" aria-label="Dil seçimi">
+          {%- for alt in locale_alternates -%}
+            <a class="locale-switcher__link{% if alt.current %} is-active{% endif %}"
+               href="{{ alt.url }}" hreflang="{{ alt.locale }}"{% if alt.current %} aria-current="true"{% endif %}>{{ alt.locale | split: '-' | first | upcase }}</a>
+          {%- endfor -%}
+        </span>
+      {%- endif -%}
     </nav>
   </div>
 </header>
