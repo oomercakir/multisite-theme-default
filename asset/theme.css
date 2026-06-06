@@ -55,6 +55,12 @@ img { max-width: 100%; display: block; height: auto; }
 .nav .has-children { position: relative; }
 .nav .submenu { display: flex; flex-direction: column; gap: 0.25rem; }
 
+/* Language switcher (i18n) — only rendered when the page has translations. */
+.locale-switcher { display: inline-flex; gap: 0.2rem; align-items: center; }
+.locale-switcher__link { font-size: 0.78rem; font-weight: 600; line-height: 1; padding: 0.2rem 0.45rem; border-radius: 0.35rem; text-decoration: none; opacity: 0.65; }
+.locale-switcher__link:hover { opacity: 1; }
+.locale-switcher__link.is-active { opacity: 1; background: var(--color-primary, var(--brand-accent, #f0f0f0)); color: var(--color-on-primary, #fff); }
+
 /* Visually-hidden toggle driven by the burger label (no JS). */
 .nav-toggle { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .nav-burger { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 0.5rem; }
