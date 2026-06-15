@@ -48,6 +48,37 @@
       {% if globals.address %}<span>{{ globals.address }}</span>{% endif %}
     </div>
 
+    {%- comment -%} Çalışma saatleri (#259/#323) — globals.opening_hours: { mon: {closed,open,close}, … }.
+      Operatörün doldurduğu günleri gösterir; hiç doldurulmamışsa sütun çıkmaz. {%- endcomment -%}
+    {%- assign oh = globals.opening_hours -%}
+    {%- assign day_keys = 'mon,tue,wed,thu,fri,sat,sun' | split: ',' -%}
+    {%- assign day_labels = 'Pazartesi,Salı,Çarşamba,Perşembe,Cuma,Cumartesi,Pazar' | split: ',' -%}
+    {%- assign has_hours = false -%}
+    {%- if oh -%}
+      {%- for k in day_keys -%}
+        {%- assign dd = oh[k] -%}
+        {%- if dd -%}{%- if dd.closed or dd.open != blank -%}{%- assign has_hours = true -%}{%- endif -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if has_hours -%}
+    <div class="footer-col">
+      <h4>Çalışma saatleri</h4>
+      {%- for k in day_keys -%}
+        {%- assign dd = oh[k] -%}
+        {%- if dd -%}
+          {%- assign show = false -%}
+          {%- if dd.closed -%}{%- assign show = true -%}{%- elsif dd.open != blank -%}{%- assign show = true -%}{%- endif -%}
+          {%- if show -%}
+          <span style="display:flex;justify-content:space-between;gap:1.5rem">
+            <span>{{ day_labels[forloop.index0] }}</span>
+            <span>{%- if dd.closed -%}Kapalı{%- else -%}{{ dd.open }}–{{ dd.close }}{%- endif -%}</span>
+          </span>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- endif -%}
+
     {% if globals.social_links %}
       <div class="footer-col">
         <h4>Sosyal</h4>
