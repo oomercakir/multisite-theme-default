@@ -96,6 +96,20 @@
 
   <div class="wrap footer-legal">
     <span>© {{ 'now' | date: '%Y' }} {{ brand }}</span>
+    {%- comment -%} Kurumsal künye (#323) — globals.corporate; yalnız dolu alanlar, hiç yoksa çıkmaz. {%- endcomment -%}
+    {%- assign corp = globals.corporate -%}
+    {%- assign has_corp = false -%}
+    {%- if corp -%}
+      {%- if corp.legal_title != blank or corp.tax_number != blank or corp.trade_registry_no != blank or corp.mersis_no != blank -%}{%- assign has_corp = true -%}{%- endif -%}
+    {%- endif -%}
+    {%- if has_corp -%}
+    <span class="footer-legal__corporate" style="opacity:.7;font-size:.8rem">
+      {%- if corp.legal_title != blank -%}{{ corp.legal_title }}{%- endif -%}
+      {%- if corp.tax_number != blank -%} · Vergi No: {% if corp.tax_office != blank %}{{ corp.tax_office }} {% endif %}{{ corp.tax_number }}{%- endif -%}
+      {%- if corp.trade_registry_no != blank -%} · Sicil No: {{ corp.trade_registry_no }}{%- endif -%}
+      {%- if corp.mersis_no != blank -%} · MERSİS: {{ corp.mersis_no }}{%- endif -%}
+    </span>
+    {%- endif -%}
     {%- if globals.kvkk_url != blank or globals.privacy_url != blank or globals.terms_url != blank -%}
     <span class="footer-legal__links">
       {% if globals.kvkk_url and globals.kvkk_url != blank %}<a href="{{ globals.kvkk_url }}">KVKK</a>{% endif %}
