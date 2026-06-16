@@ -1,10 +1,12 @@
 {%- comment -%}
   Altbilgi — footer section grubunun parçası (Shopify-tarzı chrome). Sütunlar
-  footer_nav menüsünden; iletişim/sosyal/künye/saatler globals'tan; alt not ve
+  seçili menüden (props.menu → navigations, varsayılan footer_nav);
+  iletişim/sosyal/künye/saatler globals'tan; alt not ve
   WhatsApp yüzen butonu bu section'ın ayarlarından (props.*).
 {%- endcomment -%}
 {%- liquid
   assign brand = globals.site_name | default: site.name
+  assign footer_menu = navigations[props.menu] | default: footer_nav
   assign show_whatsapp = props.whatsapp_enabled
   if props.whatsapp_enabled == nil
     assign show_whatsapp = true
@@ -22,8 +24,8 @@
       becomes its own titled column; childless top-level items collapse into
       one "Bağlantılar" column.
     {%- endcomment -%}
-    {%- if footer_nav and footer_nav.size > 0 -%}
-      {%- for item in footer_nav -%}
+    {%- if footer_menu and footer_menu.size > 0 -%}
+      {%- for item in footer_menu -%}
         {%- if item.children and item.children.size > 0 -%}
           <div class="footer-col">
             <h4>{{ item.label }}</h4>
@@ -35,13 +37,13 @@
       {%- endfor -%}
 
       {%- assign has_flat = false -%}
-      {%- for item in footer_nav -%}
+      {%- for item in footer_menu -%}
         {%- unless item.children and item.children.size > 0 -%}{%- assign has_flat = true -%}{%- endunless -%}
       {%- endfor -%}
       {%- if has_flat -%}
         <div class="footer-col">
           <h4>Bağlantılar</h4>
-          {%- for item in footer_nav -%}
+          {%- for item in footer_menu -%}
             {%- unless item.children and item.children.size > 0 -%}
               <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
             {%- endunless -%}
@@ -149,12 +151,13 @@
   "category": "Altbilgi",
   "areas": ["footer"],
   "settings": [
+    { "type": "menu", "id": "menu", "label": "Menü" },
     { "type": "textarea", "id": "note", "label": "Alt not", "rows": 2, "placeholder": "Tüm hakları saklıdır." },
     { "type": "toggle", "id": "whatsapp_enabled", "label": "WhatsApp yüzen butonu göster" },
-    { "type": "paragraph", "content": "Bağlantı sütunları Menü > Altbilgi menüsünden; iletişim, sosyal medya, çalışma saatleri ve künye Ayarlar'dan gelir." }
+    { "type": "paragraph", "content": "Sütunlar seçili menüden oluşur; iletişim, sosyal medya, çalışma saatleri ve künye Ayarlar'dan gelir." }
   ],
   "presets": [
-    { "name": "Altbilgi", "settings": { "whatsapp_enabled": true } }
+    { "name": "Altbilgi", "settings": { "whatsapp_enabled": true, "menu": "footer" } }
   ]
 }
 {% endschema %}
