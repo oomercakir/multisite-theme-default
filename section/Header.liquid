@@ -1,12 +1,13 @@
 {%- comment -%}
   Üstbilgi (logo + menü + buton) — header section grubunun ana parçası
-  (Shopify-tarzı chrome). Logo/buton/sabitlik bu section'ın ayarlarından
-  (props.*), marka adı ve menü globals/nav'dan gelir.
+  (Shopify-tarzı chrome). Logo/buton/sabitlik/menü seçimi bu section'ın
+  ayarlarından (props.*); marka adı globals'tan, menü öğeleri seçili menüden gelir.
 {%- endcomment -%}
 {%- liquid
   assign logo = props.logo
   assign logo_w = props.logo_width | default: 150
   assign brand = globals.site_name | default: site.name
+  assign header_menu = navigations[props.menu] | default: nav
 -%}
 <header class="site-header"{% if props.sticky %} style="position:sticky;top:0;z-index:40"{% endif %}>
   <div class="wrap header__bar">
@@ -23,7 +24,7 @@
       <span></span><span></span><span></span>
     </label>
     <nav class="nav" aria-label="Ana menü">
-      {%- for item in nav -%}
+      {%- for item in header_menu -%}
         {%- if item.children and item.children.size > 0 -%}
           <span class="has-children">
             <a href="{{ item.url | default: '#' }}">{{ item.label }}</a>
@@ -62,6 +63,9 @@
     { "type": "image", "id": "logo", "label": "Logo görseli" },
     { "type": "range", "id": "logo_width", "label": "Logo genişliği", "min": 60, "max": 360, "step": 10, "suffix": "px" },
 
+    { "type": "header", "label": "Menü" },
+    { "type": "menu", "id": "menu", "label": "Menü" },
+
     { "type": "header", "label": "Buton" },
     { "type": "text", "id": "cta_label", "label": "Buton metni", "placeholder": "Teklif Al" },
     { "type": "url", "id": "cta_url", "label": "Buton bağlantısı", "visibleIf": "cta_label" },
@@ -69,10 +73,10 @@
     { "type": "header", "label": "Davranış" },
     { "type": "toggle", "id": "sticky", "label": "Kaydırınca sabit kalsın" },
 
-    { "type": "paragraph", "content": "Firma adı ve menü; Ayarlar ve Menü bölümlerinden yönetilir." }
+    { "type": "paragraph", "content": "Firma adı Ayarlar'dan gelir; menü öğeleri Menü bölümünden düzenlenir." }
   ],
   "presets": [
-    { "name": "Üstbilgi", "settings": { "logo_width": 150, "sticky": true } }
+    { "name": "Üstbilgi", "settings": { "logo_width": 150, "sticky": true, "menu": "main" } }
   ]
 }
 {% endschema %}
