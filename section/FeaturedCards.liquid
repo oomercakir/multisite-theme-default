@@ -13,13 +13,13 @@
     {%- if props.eyebrow or props.title or props.subtitle -%}
       <div class="section__lead{% if alignment == 'center' %} section__lead--center{% endif %}" style="{% if alignment == 'center' %}text-align: center; margin: 0 auto 2.5rem;{% else %}margin-bottom: 2.5rem;{% endif %}">
         {%- if props.eyebrow and props.eyebrow != blank -%}
-          <span class="eyebrow">{{ props.eyebrow }}</span>
+          <span class="eyebrow" data-yt-bind="eyebrow">{{ props.eyebrow }}</span>
         {%- endif -%}
         {%- if props.title and props.title != blank -%}
-          <h2>{{ props.title }}</h2>
+          <h2 data-yt-bind="title">{{ props.title }}</h2>
         {%- endif -%}
         {%- if props.subtitle and props.subtitle != blank -%}
-          <p style="margin-top: 0.5rem; opacity: 0.75;">{{ props.subtitle }}</p>
+          <p style="margin-top: 0.5rem; opacity: 0.75;" data-yt-bind="subtitle">{{ props.subtitle }}</p>
         {%- endif -%}
       </div>
     {%- endif -%}
