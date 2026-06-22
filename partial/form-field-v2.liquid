@@ -8,9 +8,9 @@
   assign width = field.width | default: 'full'
 -%}
 {%- if ftype == 'hidden' -%}
-  <input type="hidden" name="{{ field.name }}" value="">
+  <input type="hidden" name="{{ field.name }}" value="{{ field.prefillValue }}">
 {%- else -%}
-  <div class="ff ff--{{ ftype }} ff--{{ ftype }}-{{ variant }} ff--w-{{ width }}" data-ff-name="{{ field.name }}">
+  <div class="ff ff--{{ ftype }} ff--{{ ftype }}-{{ variant }} ff--w-{{ width }}" data-ff-name="{{ field.name }}"{% if field.conditionsJson %} data-bcf-conditions="{{ field.conditionsJson | escape }}"{% endif %}>
     {%- case ftype -%}
       {%- when 'textarea' -%}{% render 'partial/field-textarea', field: field %}
       {%- when 'select' -%}{% render 'partial/field-select', field: field %}

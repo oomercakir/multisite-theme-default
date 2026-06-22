@@ -4,7 +4,7 @@
   <div class="ff-radio__opts">
     {%- for opt in opts -%}
       <label class="ff-radio__opt">
-        <input type="radio" name="{{ field.name }}" value="{{ opt.value }}"{% if field.required and forloop.first %} required{% endif %}>
+        <input type="radio" name="{{ field.name }}" value="{{ opt.value }}"{% if field.prefillValue and opt.value == field.prefillValue %} checked{% endif %}{% if field.required and forloop.first %} required{% endif %}>
         <span class="ff-radio__face">{{ opt.label }}</span>
       </label>
     {%- endfor -%}

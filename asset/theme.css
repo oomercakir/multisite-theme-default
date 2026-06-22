@@ -422,6 +422,12 @@ img { max-width: 100%; display: block; height: auto; }
 .form-status { font-size: .9rem; opacity: .85; }
 .form-status[data-error] { color: var(--color-danger, #dc2626); }
 
+/* Form-düzeyi KVKK/onay (config.consent) */
+.form-consent { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.25rem; }
+.form-consent__item { display: flex; align-items: flex-start; gap: .5rem; font-size: .85rem; opacity: .9; }
+.form-consent__item input { margin-top: .2rem; }
+.form-consent__text a { color: var(--color-primary, currentColor); text-decoration: underline; }
+
 /* ============================ RADIO VARYANTLARI ============================ */
 /* classic — yığılmış doğal radio'lar */
 .ff-radio__opts { display: flex; flex-direction: column; gap: .5rem; }
