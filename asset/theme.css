@@ -369,3 +369,142 @@ img { max-width: 100%; display: block; height: auto; }
 
 /* --- Visually hidden ------------------------------------------------- */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* ===== Form-builder (hibrit) variant CSS — section/Form ===== */
+/* ============================================================================
+   Form-builder (hibrit epic) — alan düzeni + küratörlü stil varyantları.
+   Renkler renk-şeması token'larından gelir (--color-*). Varyant YALNIZ şekli/
+   düzeni değiştirir; renk şemaya bağlı kalır. Bu blok theme'in asset/theme.css'ine
+   eklenir (ayrı dosya tutmak istenirse layout'ta <link>'lenir).
+   ============================================================================ */
+
+/* --- Izgara + alan genişliği --- */
+.form-grid { display: grid; gap: 1rem; }
+.form-grid--cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-grid--gap-sm { gap: .6rem; }
+.form-grid--gap-md { gap: 1rem; }
+.form-grid--gap-lg { gap: 1.5rem; }
+.ff--w-full { grid-column: 1 / -1; }
+.ff--w-half { grid-column: span 1; }
+.ff--w-third { grid-column: span 1; }
+@media (max-width: 640px) {
+  .form-grid--cols-2 { grid-template-columns: 1fr; }
+  .ff--w-half, .ff--w-third { grid-column: 1 / -1; }
+}
+
+/* --- Alan temeli --- */
+.ff { display: flex; flex-direction: column; gap: .4rem; }
+.ff__label { font-size: .9rem; font-weight: 600; }
+.ff__req { color: var(--color-primary, #2563eb); }
+.ff__help { font-size: .8rem; opacity: .7; }
+.ff__control {
+  width: 100%;
+  padding: .6rem .75rem;
+  border: 1px solid var(--color-border, #d4d4d8);
+  border-radius: var(--radius, .5rem);
+  background: var(--color-surface, #fff);
+  color: inherit;
+  font: inherit;
+}
+.ff__control:focus {
+  outline: none;
+  border-color: var(--color-primary, #2563eb);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #2563eb) 20%, transparent);
+}
+.ff__textarea { resize: vertical; min-height: 6rem; }
+.ff__fieldset { border: 0; padding: 0; margin: 0; }
+
+/* --- Form aksiyonları --- */
+.form-actions { display: flex; align-items: center; gap: 1rem; margin-top: 1.25rem; }
+.form-actions--center { justify-content: center; }
+.form-actions--right { justify-content: flex-end; }
+.form-actions--left { justify-content: flex-start; }
+.form-status { font-size: .9rem; opacity: .85; }
+.form-status[data-error] { color: var(--color-danger, #dc2626); }
+
+/* ============================ RADIO VARYANTLARI ============================ */
+/* classic — yığılmış doğal radio'lar */
+.ff-radio__opts { display: flex; flex-direction: column; gap: .5rem; }
+.ff-radio--classic .ff-radio__opt { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
+
+/* button-group — yatay pill'ler */
+.ff-radio--button-group .ff-radio__opts { flex-direction: row; flex-wrap: wrap; gap: .5rem; }
+.ff-radio--button-group .ff-radio__opt { position: relative; }
+.ff-radio--button-group input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.ff-radio--button-group .ff-radio__face {
+  display: inline-block; padding: .55rem 1rem;
+  border: 1px solid var(--color-border, #d4d4d8); border-radius: 999px; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.ff-radio--button-group input:checked + .ff-radio__face {
+  background: var(--color-primary, #2563eb); color: var(--color-on-primary, #fff); border-color: transparent;
+}
+.ff-radio--button-group input:focus-visible + .ff-radio__face {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #2563eb) 25%, transparent);
+}
+
+/* cards — kenarlıklı blok seçenekler */
+.ff-radio--cards .ff-radio__opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .75rem; }
+.ff-radio--cards .ff-radio__opt { position: relative; }
+.ff-radio--cards input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.ff-radio--cards .ff-radio__face {
+  display: block; padding: 1rem; text-align: center;
+  border: 1px solid var(--color-border, #d4d4d8); border-radius: var(--radius, .6rem); cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ff-radio--cards input:checked + .ff-radio__face {
+  border-color: var(--color-primary, #2563eb);
+  box-shadow: 0 0 0 2px var(--color-primary, #2563eb) inset;
+}
+
+/* segmented — tek bitişik kontrol */
+.ff-radio--segmented .ff-radio__opts {
+  display: inline-flex; flex-direction: row; gap: 0; flex-wrap: wrap;
+  border: 1px solid var(--color-border, #d4d4d8); border-radius: var(--radius, .5rem); overflow: hidden;
+}
+.ff-radio--segmented .ff-radio__opt { position: relative; }
+.ff-radio--segmented input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.ff-radio--segmented .ff-radio__face {
+  display: inline-block; padding: .55rem 1rem; cursor: pointer;
+  border-right: 1px solid var(--color-border, #d4d4d8);
+}
+.ff-radio--segmented .ff-radio__opt:last-child .ff-radio__face { border-right: 0; }
+.ff-radio--segmented input:checked + .ff-radio__face {
+  background: var(--color-primary, #2563eb); color: var(--color-on-primary, #fff);
+}
+
+/* ========================== CHECKBOX VARYANTLARI ========================== */
+.ff-check__opts { display: flex; flex-direction: column; gap: .5rem; }
+.ff-check__single { display: flex; align-items: flex-start; gap: .5rem; cursor: pointer; }
+.ff-check--classic .ff-check__opt { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
+
+/* switch — anahtar görünümlü tekil onay */
+.ff-check--switch.ff-check__single input,
+.ff-check--switch .ff-check__opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ff-check--switch .ff-check__face { display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; }
+.ff-check--switch .ff-check__face::before {
+  content: ""; width: 2.4rem; height: 1.4rem; border-radius: 999px;
+  background: var(--color-border, #d4d4d8); position: relative; transition: background .15s; flex: 0 0 auto;
+}
+.ff-check--switch input:checked + .ff-check__face::before { background: var(--color-primary, #2563eb); }
+.ff-check--switch .ff-check__face::after {
+  content: ""; width: 1rem; height: 1rem; border-radius: 999px; background: #fff;
+  position: absolute; left: .2rem; transition: transform .15s; box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+.ff-check--switch input:checked + .ff-check__face::after { transform: translateX(1rem); }
+
+/* chip — seçilince dolan etiket çipleri */
+.ff-check--chip .ff-check__opts { flex-direction: row; flex-wrap: wrap; gap: .5rem; }
+.ff-check--chip .ff-check__opt { position: relative; }
+.ff-check--chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.ff-check--chip .ff-check__face {
+  display: inline-block; padding: .45rem .9rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--color-border, #d4d4d8); transition: background .15s, color .15s, border-color .15s;
+}
+.ff-check--chip input:checked + .ff-check__face {
+  background: var(--color-primary, #2563eb); color: var(--color-on-primary, #fff); border-color: transparent;
+}
+
+/* --- consent --- */
+.ff-consent { display: flex; align-items: flex-start; gap: .5rem; font-size: .9rem; }
+.ff-consent input { margin-top: .2rem; }

@@ -1,0 +1,32 @@
+<script>
+(function () {
+  var f = document.getElementById('{{ form_id }}');
+  if (!f) return;
+  var status = f.querySelector('.form-status');
+  function say(msg, isError) {
+    if (!status) return;
+    status.textContent = msg;
+    if (isError) status.setAttribute('data-error', '1');
+    else status.removeAttribute('data-error');
+  }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = f.querySelector('button[type=submit]');
+    if (btn) btn.disabled = true;
+    say('', false);
+    fetch(f.getAttribute('action'), { method: 'POST', body: new FormData(f) })
+      .then(function (r) { return r.json().catch(function () { return {}; }); })
+      .then(function (d) {
+        if (d && d.ok) {
+          f.reset();
+          say(f.getAttribute('data-success') || 'Teşekkürler.', false);
+        } else {
+          var base = f.getAttribute('data-error') || 'Gönderilemedi.';
+          say(base + (d && d.error ? ' (' + d.error + ')' : ''), true);
+        }
+      })
+      .catch(function () { say(f.getAttribute('data-error') || 'Gönderilemedi.', true); })
+      .finally(function () { if (btn) btn.disabled = false; });
+  });
+})();
+</script>
