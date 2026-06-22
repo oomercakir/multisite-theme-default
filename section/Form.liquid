@@ -51,6 +51,24 @@
           </div>
           <input type="text" name="_hp" tabindex="-1" autocomplete="off" aria-hidden="true"
                  style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          {%- if form.config.consent -%}
+            <div class="form-consent">
+              {%- for item in form.config.consent.items -%}
+                <label class="form-consent__item">
+                  <input type="checkbox" name="_consent_{{ item.key }}" value="1"{% if item.required %} required{% endif %}>
+                  <span class="form-consent__text">
+                    {%- if item.link_url and item.link_url != blank -%}
+                      <a href="{{ item.link_url }}" target="_blank" rel="noopener">{{ item.label }}</a>
+                    {%- else -%}
+                      {{ item.label }}
+                    {%- endif -%}
+                    {%- if item.required %} <span class="ff__req">*</span>{% endif -%}
+                  </span>
+                </label>
+              {%- endfor -%}
+              <input type="hidden" name="_consent_version" value="{{ form.config.consent.version }}">
+            </div>
+          {%- endif -%}
           <div class="form-actions form-actions--{{ form.config.submit.alignment | default: 'left' }}">
             <button class="btn btn--{{ form.config.submit.style | default: 'primary' }}" type="submit">
               {{ form.config.submit.label | default: 'Gönder' }}
