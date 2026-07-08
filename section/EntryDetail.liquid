@@ -33,7 +33,7 @@
               {%- if img and img != blank -%}
                 <div class="swiper-slide">
                   <img
-                    src="{{ img }}"
+                    src="{{ img | image_url }}"
                     alt="{{ entry.title | escape }}"
                     loading="lazy"
                     style="width: 100%; height: auto; display: block; border-radius: 12px; object-fit: cover;"
