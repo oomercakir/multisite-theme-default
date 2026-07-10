@@ -15,7 +15,7 @@
   "@type": "Organization",
   "name": {{ org_name | json }}
   {%- if origin != blank %}, "url": {{ origin | append: '/' | json }}{% endif -%}
-  {%- if settings.logo and settings.logo != blank %}, "logo": {{ settings.logo | image_url: 'width=512,format=png' | json }}{% endif -%}
+  {%- if settings.logo and settings.logo != blank %}, "logo": {{ settings.logo | image_url: 'width=512&format=png' | json }}{% endif -%}
   {%- if globals.email and globals.email != blank %}, "email": {{ globals.email | json }}{% endif -%}
   {%- if globals.phone and globals.phone != blank %}, "telephone": {{ globals.phone | json }}{% endif -%}
   {%- if globals.address and globals.address != blank %}, "address": {{ globals.address | json }}{% endif -%}
