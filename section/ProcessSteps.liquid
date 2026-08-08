@@ -27,7 +27,7 @@
     <div class="process{% if layout == 'horizontal' %} process--horizontal{% endif %}">
       {%- for block in blocks -%}
         {%- if block.type == 'process-step' -%}
-          <div class="process__step">
+          <div class="process__step"{{ block.editor_attributes }}>
             {%- if block.settings.title and block.settings.title != blank -%}
               <h3>{{ block.settings.title }}</h3>
             {%- endif -%}

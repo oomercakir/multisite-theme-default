@@ -22,7 +22,7 @@
     <div class="counter__grid counter__grid--{{ columns }}" id="{{ sid }}">
       {%- for block in blocks -%}
         {%- if block.type == 'counter-item' -%}
-          <div class="counter__item" style="{% if alignment == 'center' %}text-align:center;{% endif %}">
+          <div class="counter__item"{{ block.editor_attributes }} style="{% if alignment == 'center' %}text-align:center;{% endif %}">
             <div class="counter__value"
                  data-target="{{ block.settings.value | default: 0 }}"
                  data-prefix="{{ block.settings.prefix | escape }}"
