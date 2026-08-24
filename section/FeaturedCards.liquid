@@ -28,7 +28,7 @@
       {%- for block in blocks -%}
         {%- if block.type == 'card' -%}
           {%- assign idx = forloop.index -%}
-          <article class="card">
+          <article class="card"{{ block.editor_attributes }}>
             {%- liquid
               assign media_type = block.settings.media_type | default: 'none'
             -%}

@@ -30,7 +30,7 @@
           {%- if block.type == 'faq-item' -%}
             {%- assign idx = forloop.index -%}
             {%- assign opened = block.settings.open_by_default | default: false -%}
-            <details{% if opened or idx == 1 %} open{% endif %} itemscope itemtype="https://schema.org/Question">
+            <details{{ block.editor_attributes }}{% if opened or idx == 1 %} open{% endif %} itemscope itemtype="https://schema.org/Question">
               <summary itemprop="name">{{ block.settings.question | default: 'Soru başlığı' }}</summary>
               {%- if block.settings.answer and block.settings.answer != blank -%}
                 <div itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">

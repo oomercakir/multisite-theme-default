@@ -33,7 +33,7 @@
             {%- assign full = image | image_url: 'width=2000&quality=85&format=webp' -%}
             {%- assign has_video = false -%}
             {%- if block.settings.video_url and block.settings.video_url != blank -%}{%- assign has_video = true -%}{%- endif -%}
-            <figure class="gallery-item">
+            <figure class="gallery-item"{{ block.editor_attributes }}>
               <a class="glightbox gallery-item__link{% if has_video %} gallery-item__link--video{% endif %}"
                  href="{% if has_video %}{{ block.settings.video_url | escape }}{% else %}{{ full }}{% endif %}"
                  data-gallery="gal-{{ section.id }}"

@@ -26,7 +26,7 @@
     <div class="testimonials">
       {%- for block in blocks -%}
         {%- if block.type == 'testimonial' -%}
-          <figure class="testimonial">
+          <figure class="testimonial"{{ block.editor_attributes }}>
             {%- if block.settings.quote and block.settings.quote != blank -%}
               <blockquote class="testimonial__quote">{{ block.settings.quote }}</blockquote>
             {%- endif -%}
