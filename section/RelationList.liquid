@@ -25,7 +25,7 @@
 -%}
 <section class="section color-{{ color_scheme }}">
   <div class="wrap">
-    {% if props.title and props.title != blank %}<h2>{{ props.title }}</h2>{% endif %}
+    {% if props.title and props.title != blank %}<h2>{{ props.title | escape }}</h2>{% endif %}
     {%- if total > 0 -%}
     <div class="grid grid--{{ cols }}">
       {%- for item in list -%}
@@ -34,13 +34,13 @@
         {%- assign card_img = item.data[props.imageField] | image_url -%}
         <article class="card" style="padding:0;overflow:hidden">
           {% if card_img and card_img != '' %}
-            <img src="{{ card_img }}" alt="{{ card_title }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
+            <img src="{{ card_img }}" alt="{{ card_title | escape }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
           {% endif %}
           <div style="padding:1.5rem">
             <h3 style="margin-top:.4rem">
               {% if detail_base and detail_base != '' and item.slug %}
-                <a href="{{ detail_base }}/{{ item.slug }}">{{ card_title }}</a>
-              {% else %}{{ card_title }}{% endif %}
+                <a href="{{ detail_base }}/{{ item.slug }}">{{ card_title | escape }}</a>
+              {% else %}{{ card_title | escape }}{% endif %}
             </h3>
             {% if card_sub and card_sub != '' %}<p>{{ card_sub }}</p>{% endif %}
           </div>

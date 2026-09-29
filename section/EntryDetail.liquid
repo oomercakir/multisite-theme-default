@@ -23,7 +23,7 @@
   >
     <div class="wrap">
       {%- if show_title and entry.title and entry.title != blank -%}
-        <h1 class="entry-detail__title">{{ entry.title }}</h1>
+        <h1 class="entry-detail__title">{{ entry.title | escape }}</h1>
       {%- endif -%}
 
       {%- if gallery and gallery.size > 0 -%}
@@ -50,7 +50,7 @@
 
       {%- if specs and specs != blank -%}
         <div class="entry-detail__specs" style="margin-top: 2rem;">
-          <h2>{{ specs_title }}</h2>
+          <h2>{{ specs_title | escape }}</h2>
           <dl style="display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1.25rem; margin-top: 0.75rem;">
             {%- for pair in specs -%}
               {%- if pair[1] and pair[1] != blank -%}
@@ -64,7 +64,7 @@
 
       {%- if variants and variants.size > 0 -%}
         <div class="entry-detail__variants" style="margin-top: 2rem; overflow-x: auto;">
-          <h2>{{ variants_title }}</h2>
+          <h2>{{ variants_title | escape }}</h2>
           <table style="width: 100%; border-collapse: collapse; margin-top: 0.75rem;">
             <thead>
               <tr>

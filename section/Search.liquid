@@ -8,11 +8,11 @@
 -%}
 <section class="section color-{{ color_scheme }}">
   <div class="wrap">
-    {% if props.title and props.title != blank %}<h2 style="text-align:center">{{ props.title }}</h2>{% endif %}
+    {% if props.title and props.title != blank %}<h2 style="text-align:center">{{ props.title | escape }}</h2>{% endif %}
     <form data-site-search role="search" style="display:flex;gap:.5rem;max-width:640px;margin:0 auto">
       <input type="search" name="q" placeholder="{{ placeholder }}" aria-label="Sitede ara" autocomplete="off"
         style="flex:1;padding:.75rem 1rem;border:1px solid var(--border,#d4d4d4);border-radius:8px;font-size:1rem" />
-      <button type="submit" style="padding:.75rem 1.5rem;border-radius:8px;cursor:pointer">{{ button_label }}</button>
+      <button type="submit" style="padding:.75rem 1.5rem;border-radius:8px;cursor:pointer">{{ button_label | escape }}</button>
     </form>
     <div data-site-search-results role="region" aria-live="polite" style="max-width:640px;margin:1.5rem auto 0"></div>
   </div>
