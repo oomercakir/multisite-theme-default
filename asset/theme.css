@@ -210,6 +210,11 @@ img { max-width: 100%; display: block; height: auto; }
 .richtext__body ul, .richtext__body ol { padding-left: 1.25rem; }
 .richtext__body li { margin-bottom: 0.4rem; }
 .richtext__body a { color: var(--color-primary); text-decoration: underline; text-underline-offset: 3px; }
+.richtext__body table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 0 0 1rem; font-size: 0.95rem; }
+.richtext__body caption { text-align: left; font-weight: 600; padding-bottom: 0.5rem; }
+.richtext__body th, .richtext__body td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--color-border, #eee); text-align: left; vertical-align: top; }
+.richtext__body th { font-weight: 600; }
+.richtext__body th p, .richtext__body td p { margin: 0; }
 
 /* --- CTA ------------------------------------------------------------- */
 .cta { display: flex; flex-direction: column; gap: 1.25rem; align-items: center; text-align: center; }

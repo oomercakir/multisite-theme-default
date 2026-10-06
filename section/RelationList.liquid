@@ -42,13 +42,13 @@
                 <a href="{{ detail_base }}/{{ item.slug }}">{{ card_title | escape }}</a>
               {% else %}{{ card_title | escape }}{% endif %}
             </h3>
-            {% if card_sub and card_sub != '' %}<p>{{ card_sub }}</p>{% endif %}
+            {% if card_sub and card_sub != '' %}<p>{{ card_sub | strip_html | escape }}</p>{% endif %}
           </div>
         </article>
       {%- endfor -%}
     </div>
     {%- elsif props.emptyText and props.emptyText != blank -%}
-      <p style="opacity:.6">{{ props.emptyText }}</p>
+      <p style="opacity:.6">{{ props.emptyText | escape }}</p>
     {%- endif -%}
   </div>
 </section>
