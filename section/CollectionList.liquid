@@ -70,14 +70,14 @@
             <img src="{{ card_img }}" alt="{{ card_title | escape }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
           {% endif %}
           <div style="padding:1.5rem">
-            {% if card_badge and card_badge != '' %}<p class="eyebrow">{{ card_badge }}</p>{% endif %}
+            {% if card_badge and card_badge != '' %}<p class="eyebrow">{{ card_badge | strip_html | escape }}</p>{% endif %}
             <h3 style="margin-top:.4rem">
               {% if detail_base and detail_base != '' and item.slug %}
                 <a href="{{ detail_base }}/{{ item.slug }}">{{ card_title | escape }}</a>
               {% else %}{{ card_title | escape }}{% endif %}
             </h3>
-            {% if card_date and card_date != '' %}<p class="card__date" style="opacity:.6;font-size:.8rem;margin:.25rem 0 0">{{ card_date }}</p>{% endif %}
-            {% if card_sub and card_sub != '' %}<p>{{ card_sub }}</p>{% endif %}
+            {% if card_date and card_date != '' %}<p class="card__date" style="opacity:.6;font-size:.8rem;margin:.25rem 0 0">{{ card_date | strip_html | escape }}</p>{% endif %}
+            {% if card_sub and card_sub != '' %}<p>{{ card_sub | strip_html | escape }}</p>{% endif %}
           </div>
         </article>
       {%- else -%}
