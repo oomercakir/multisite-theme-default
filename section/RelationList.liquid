@@ -34,12 +34,12 @@
         {%- assign card_img = item.data[props.imageField] | image_url -%}
         <article class="card" style="padding:0;overflow:hidden">
           {% if card_img and card_img != '' %}
-            <img src="{{ card_img }}" alt="{{ card_title | escape }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
+            <img src="{{ card_img | safe_url }}" alt="{{ card_title | escape }}" loading="lazy" style="aspect-ratio:16/10;object-fit:cover;width:100%">
           {% endif %}
           <div style="padding:1.5rem">
             <h3 style="margin-top:.4rem">
               {% if detail_base and detail_base != '' and item.slug %}
-                <a href="{{ detail_base }}/{{ item.slug }}">{{ card_title | escape }}</a>
+                <a href="{{ detail_base | safe_url }}/{{ item.slug | escape }}">{{ card_title | escape }}</a>
               {% else %}{{ card_title | escape }}{% endif %}
             </h3>
             {% if card_sub and card_sub != '' %}<p>{{ card_sub | strip_html | escape }}</p>{% endif %}
